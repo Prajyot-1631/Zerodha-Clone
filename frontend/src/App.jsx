@@ -1,6 +1,4 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { Routes, Route } from "react-router-dom";
 // import "./App.css";
 import HomePage from "./landing_page/home/HomePage";
 import AboutPage from "./landing_page/about/AboutPage";
@@ -8,8 +6,9 @@ import AboutPage from "./landing_page/about/AboutPage";
 function App() {
   return (
     <>
-      <HomePage />
-      {/* <AboutPage /> */}
+      <Routes>
+        <Route path="/" element={<HomePage />}></Route>
+      </Routes>
     </>
   );
 }
