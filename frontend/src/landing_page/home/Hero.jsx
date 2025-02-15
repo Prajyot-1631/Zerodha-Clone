@@ -8,6 +8,7 @@ function Hero() {
               src="media/images/homeHero.png"
               alt="Hero Image"
               className="mb-5"
+              style={{ width: "100%" }}
             ></img>
             <h1 className="mt-5">Invest in everything</h1>
             <p>
