@@ -1,5 +1,8 @@
-import React from "react";
+import { useState } from "react";
+import { Tooltip, Grow } from "@mui/material";
+import { watchlist } from "../data/data";
 
+import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 function WatchList() {
   return (
     <div className="watchlist-container">
@@ -11,12 +14,45 @@ function WatchList() {
           placeholder="Search eg:infy, bse, nifty fut weekly, gold mcx"
           className="search"
         />
-        <span className="counts"> 9 / 50</span>
+        <span className="counts">{watchlist.length} / 50</span>
       </div>
 
-      <ul className="list"></ul>
+      <ul className="list">
+        {watchlist.map((stock, index) => {
+          return <WatchListItem stock={stock} key={index} />;
+        })}
+      </ul>
     </div>
   );
 }
 
 export default WatchList;
+
+function WatchListItem({ stock }) {
+  const [showWatchlistActions, setShowWatchlistActions] = useState(false);
+
+  const handleMouseEnter = (e) => {
+    setShowWatchlistActions(true);
+  };
+
+  const handleMouseLeave = (e) => {
+    setShowWatchlistActions(false);
+  };
+
+  return (
+    <li onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      <div className="item">
+        <p className={stock.isDown ? "down" : "up"}>{stock.name}</p>
+        <div className="itemInfo">
+          <span className="percent">{stock.percent}</span>
+          {stock.isDown ? (
+            <KeyboardArrowDown className="down" />
+          ) : (
+            <KeyboardArrowUp className="up" />
+          )}
+          <span className="price">{stock.price}</span>
+        </div>
+      </div>
+    </li>
+  );
+}
