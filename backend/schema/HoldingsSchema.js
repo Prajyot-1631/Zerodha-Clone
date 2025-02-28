@@ -1,3 +1,5 @@
+// SCHEMA:- Telling Mongoose, Which properties are expected in this data
+
 const { Schema } = require("mongoose");
 
 const HoldingsSchema = new Schema({
