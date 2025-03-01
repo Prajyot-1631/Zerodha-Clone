@@ -1,10 +1,22 @@
-import React from "react";
-import { holdings } from "../data/data"; //later you can import data not from this file but from API
+import React, { useState, useEffect } from "react";
+
+import axios from "axios";
+
+// import { holdings } from "../data/data"; //later you can import data not from this file but from API
 
 function Holdings() {
+  const [allHoldings, setAllHoldings] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:8080/allHoldings").then((res) => {
+      console.log(res.data);
+      setAllHoldings(res.data);
+    });
+  }, []);
+
   return (
     <>
-      <h3 className="title">Holdings ({holdings.length})</h3>
+      <h3 className="title">Holdings ({allHoldings.length})</h3>
 
       <div className="order-table">
         <table>
@@ -19,7 +31,7 @@ function Holdings() {
             <th>Day chg.</th>
           </tr>
 
-          {holdings.map((stock, index) => {
+          {allHoldings.map((stock, index) => {
             const curValue = stock.price * stock.qty;
             const isProfit = curValue - stock.avg * stock.qty >= 0.0;
             const profClass = isProfit ? "profit" : "loss";

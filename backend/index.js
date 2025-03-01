@@ -2,6 +2,8 @@ require("dotenv").config();
 
 const express = require("express");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const cors = require("cors");
 
 const { HoldingsModel } = require("./model/HoldingsModel");
 const { PositionsModel } = require("./model/PositionsModel");
@@ -10,6 +12,9 @@ const PORT = process.env.PORT || 8080;
 const URI = process.env.MONGO_URL;
 
 const app = express();
+
+app.use(cors());
+app.use(bodyParser.json());
 
 // Temporary API Route
 //insetring our hardcoded dummy data into DB
@@ -183,6 +188,17 @@ const app = express();
 //   });
 //   res.send("Dummy Positions Added!");
 // });
+
+// Creating an API endpoint that will be connected to DB and later that (holdings/positions)data will be connected to the dashboard
+app.get("/allHoldings", async (req, res) => {
+  let allHoldings = await HoldingsModel.find({}); //MongoDB command to Search/Fetch Data
+  res.json(allHoldings); //returns allHoldings data in Json format
+});
+
+app.get("/allPositions", async (req, res) => {
+  let allPositions = await PositionsModel.find({}); //MongoDB command to Search/Fetch Data
+  res.json(allPositions);
+});
 
 app.listen(PORT, () => {
   console.log("server started");
