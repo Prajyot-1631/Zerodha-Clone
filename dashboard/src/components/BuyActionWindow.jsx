@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import axios from "axios";
 
+//GeneralContext:- used when data is shared between multiple components
 import GeneralContext from "./GeneralContext";
 
 import "./BuyActionWindow.css";
@@ -22,6 +23,8 @@ const BuyActionWindow = ({ uid }) => {
     GeneralContext.closeBuyWindow();
   };
 
+  // why GeneralContext?
+  // Ans: as Buy window is working with 2 components (watchlist+dashboard) and any change affects both the components(they create space for the buy window)
   const handleCancelClick = () => {
     GeneralContext.closeBuyWindow();
   };

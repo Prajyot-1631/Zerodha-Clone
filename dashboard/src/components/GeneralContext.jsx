@@ -1,3 +1,5 @@
+//React.createContext: is basically a piece of item which is shared by multiple components
+
 import React, { useState } from "react";
 
 import BuyActionWindow from "./BuyActionWindow";

@@ -7,6 +7,7 @@ const cors = require("cors");
 
 const { HoldingsModel } = require("./model/HoldingsModel");
 const { PositionsModel } = require("./model/PositionsModel");
+const { OrdersModel } = require("./model/OrdersModel");
 
 const PORT = process.env.PORT || 8080;
 const URI = process.env.MONGO_URL;
@@ -198,6 +199,22 @@ app.get("/allHoldings", async (req, res) => {
 app.get("/allPositions", async (req, res) => {
   let allPositions = await PositionsModel.find({}); //MongoDB command to Search/Fetch Data
   res.json(allPositions);
+});
+
+// 1.Read details from req
+//2.Create new order on basis of that detail
+//3.store it in DB
+app.post("/newOrder", async (req, res) => {
+  let newOrder = new OrdersModel({
+    name: req.body.name,
+    qty: req.body.qty,
+    price: req.body.price,
+    mode: req.body.mode,
+  });
+
+  newOrder.save();
+  console.log("order saved");
+  res.send("Order Saved");
 });
 
 app.listen(PORT, () => {
