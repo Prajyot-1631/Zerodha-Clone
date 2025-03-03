@@ -217,6 +217,12 @@ app.post("/newOrder", async (req, res) => {
   res.send("Order Saved");
 });
 
+//API Route for orders
+app.get("/allOrders", async (req, res) => {
+  let allOrders = await OrdersModel.find({});
+  res.json(allOrders);
+});
+
 app.listen(PORT, () => {
   console.log("server started");
   mongoose.connect(URI);
