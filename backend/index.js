@@ -4,11 +4,14 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const bcrypt = require("bcrypt");
 
 const { HoldingsModel } = require("./model/HoldingsModel");
 const { PositionsModel } = require("./model/PositionsModel");
 const { OrdersModel } = require("./model/OrdersModel");
 const { UserModel } = require("./model/UserModel");
+const signupRoute = require("./Auth/Signup");
+const loginRoute = require("./Auth/Login");
 
 const PORT = process.env.PORT || 8080;
 const URI = process.env.MONGO_URL;
@@ -224,29 +227,11 @@ app.get("/allOrders", async (req, res) => {
   res.json(allOrders);
 });
 
-//API route for saving User Credentials
-app.post("/signup", async (req, res) => {
-  let newUser = new UserModel({
-    username: "test4",
-    email: "test4@gmail.com",
-    password: "test_4",
-  });
+// Signup Route
+app.use("/signup", signupRoute);
 
-  newUser.save();
-  console.log("user Saved");
-  res.send("User saved successfully");
-});
-
-// API route for logging in user
-app.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-  let loggedinUser = await UserModel.findOne({
-    email: email,
-    password: password,
-  });
-  res.send(loggedinUser.username);
-  console.log("logged in successfully");
-});
+// Login Route
+app.use("/login", loginRoute);
 
 app.listen(PORT, () => {
   console.log("server started");
