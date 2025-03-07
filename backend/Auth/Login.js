@@ -5,7 +5,7 @@ const { UserModel } = require("../model/UserModel");
 const bcrypt = require("bcrypt");
 
 const router = express.Router();
-const SECRET_KEY = "MySuperSecretKey";
+require("dotenv").config();
 
 router.post("/", async (req, res) => {
   try {
@@ -30,14 +30,13 @@ router.post("/", async (req, res) => {
 
     // Generate JWT Token
     const token = jwt.sign(
-      { userId: user._id, email: user.email },
-      SECRET_KEY,
+      { id: user._id, email: user.email, username: user.username },
+      process.env.JWT_SECRET,
       {
-        expiresIn: "24h",
+        expiresIn: "1h",
       }
     );
     return res.json({ messsage: `Welcome ${user.username}`, token: token });
-    console.log(token);
   } catch (error) {
     console.log(error);
     return res.json({ message: "Internal Server Error" });

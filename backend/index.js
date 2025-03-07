@@ -13,6 +13,7 @@ const addTempPositions = require("./Routes/tempPositions");
 const addNewOrder = require("./Routes/newOrderRoute");
 const signupRoute = require("./Auth/Signup");
 const loginRoute = require("./Auth/Login");
+const verifyToken = require("./middleware/authMiddleware");
 
 const PORT = process.env.PORT || 8080;
 const URI = process.env.MONGO_URL;
@@ -54,6 +55,12 @@ app.use("/signup", signupRoute);
 
 // Login Route
 app.use("/login", loginRoute);
+
+// Auth JWT (testing protected routes)
+app.get("/Auth", verifyToken, (req, res) => {
+  console.log("Decoded User:", req.user);
+  res.json({ message: `Welcome to the protected route !`, user: req.user });
+});
 
 app.listen(PORT, () => {
   console.log("server started");
