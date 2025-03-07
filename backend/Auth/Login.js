@@ -1,9 +1,11 @@
 // API route for logging in user [LOGIN]
 const express = require("express");
+const jwt = require("jsonwebtoken");
 const { UserModel } = require("../model/UserModel");
 const bcrypt = require("bcrypt");
 
 const router = express.Router();
+const SECRET_KEY = "MySuperSecretKey";
 
 router.post("/", async (req, res) => {
   try {
@@ -26,7 +28,16 @@ router.post("/", async (req, res) => {
       return res.json({ message: "Invalid email or password!" });
     }
 
-    return res.send(`Welcome ${user.username}`);
+    // Generate JWT Token
+    const token = jwt.sign(
+      { userId: user._id, email: user.email },
+      SECRET_KEY,
+      {
+        expiresIn: "24h",
+      }
+    );
+    return res.json({ messsage: `Welcome ${user.username}`, token: token });
+    console.log(token);
   } catch (error) {
     console.log(error);
     return res.json({ message: "Internal Server Error" });
