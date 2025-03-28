@@ -2,7 +2,8 @@ import axios from "axios";
 import { useState } from "react";
 
 const Login = () => {
-  const [formData, setFormData] = useState({ username: "", password: "" });
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [error, setError] = useState(""); // State to store error message
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -14,36 +15,45 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
     try {
       const response = await axios.post(
         "http://localhost:8080/login",
         formData
       );
-      // Store JWT Token in localStorage
-      localStorage.setItem("token", response.data.token);
-      console.log("Stored Token:", localStorage.getItem("token"));
 
-      //Check if the token is stored
-      console.log("Saved Token:", localStorage.getItem("token"));
+      if (response.data.token) {
+        // Store JWT Token in localStorage
+        localStorage.setItem("token", response.data.token);
 
-      //   Redirect to Dashboard
-      window.location.href = `http://localhost:5173/?token=${response.data.token}`;
+        //   Redirect to Dashboard
+        window.location.href = `http://localhost:5173/?token=${response.data.token}`;
+      } else {
+        setError("Invalid credentials: Please try again.");
+      }
     } catch (error) {
-      console.error("Login Failed");
+      setError(
+        error.response?.data?.message ||
+          error.message ||
+          "Login failed. Please try again."
+      );
     }
   };
   return (
     <div className="container d-flex justify-content-center align-items-center vh-100">
       <div className="card p-4 shadow-lg" style={{ width: "400px" }}>
         <h2 className="text-center mb-3">Login</h2>
+
+        {error && <div className="alert alert-danger">{error}</div>}
+
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label className="form-label">Username</label>
+            <label className="form-label">Email</label>
             <input
               type="text"
-              name="username"
+              name="email"
               className="form-control"
-              placeholder="Enter your username"
+              placeholder="Enter your email"
               onChange={handleChange}
               required
             />
