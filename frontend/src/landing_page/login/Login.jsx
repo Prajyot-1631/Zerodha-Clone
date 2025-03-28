@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 
 const Login = () => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({ username: "", password: "" });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -27,34 +27,44 @@ const Login = () => {
       console.log("Saved Token:", localStorage.getItem("token"));
 
       //   Redirect to Dashboard
-      window.location.href = `http://localhost:5174/?token=${response.data.token}`;
+      window.location.href = `http://localhost:5173/?token=${response.data.token}`;
     } catch (error) {
       console.error("Login Failed");
     }
   };
   return (
-    <>
-      <div>
-        <h2>Login</h2>
+    <div className="container d-flex justify-content-center align-items-center vh-100">
+      <div className="card p-4 shadow-lg" style={{ width: "400px" }}>
+        <h2 className="text-center mb-3">Login</h2>
         <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="email"
-            placeholder="Email"
-            onChange={handleChange}
-            required
-          ></input>
-          <input
-            type="text"
-            name="password"
-            placeholder="Password"
-            onChange={handleChange}
-            required
-          ></input>
-          <button type="submit">Login</button>
+          <div className="mb-3">
+            <label className="form-label">Username</label>
+            <input
+              type="text"
+              name="username"
+              className="form-control"
+              placeholder="Enter your username"
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Password</label>
+            <input
+              type="password"
+              name="password"
+              className="form-control"
+              placeholder="Enter your password"
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <button type="submit" className="btn btn-primary w-100">
+            Login
+          </button>
         </form>
       </div>
-    </>
+    </div>
   );
 };
 
