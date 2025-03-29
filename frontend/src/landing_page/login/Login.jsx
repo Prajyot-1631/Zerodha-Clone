@@ -22,7 +22,7 @@ const Login = () => {
         formData
       );
 
-      if (response.data.token) {
+      if (response.status === 200 && response.data.token) {
         // Store JWT Token in localStorage
         localStorage.setItem("token", response.data.token);
 

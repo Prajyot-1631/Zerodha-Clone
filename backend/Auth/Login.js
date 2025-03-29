@@ -13,19 +13,21 @@ router.post("/", async (req, res) => {
 
     //1. check email and password are entered
     if (!email || !password) {
-      return res.json({ message: "Email and Password are required!" });
+      return res
+        .status(400)
+        .json({ message: "Email and Password are required!" });
     }
 
     //2. Check if user exists in DB
     const user = await UserModel.findOne({ email: email });
     if (!user) {
-      return res.json({ message: "Invalid Email or Password!" });
+      return res.status(401).json({ message: "Invalid Email or Password!" });
     }
 
     //3. Check if password matches hashed password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.json({ message: "Invalid email or password!" });
+      return res.status(401).json({ message: "Invalid email or password!" });
     }
 
     // Generate JWT Token
@@ -39,7 +41,7 @@ router.post("/", async (req, res) => {
     return res.json({ messsage: `Welcome ${user.username}`, token: token });
   } catch (error) {
     console.log(error);
-    return res.json({ message: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
