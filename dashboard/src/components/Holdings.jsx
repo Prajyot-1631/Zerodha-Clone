@@ -9,10 +9,12 @@ function Holdings() {
   const [allHoldings, setAllHoldings] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/allHoldings").then((res) => {
-      console.log(res.data);
-      setAllHoldings(res.data);
-    });
+    axios
+      .get("https://zerodha-clone-eyro.onrender.com/allHoldings")
+      .then((res) => {
+        console.log(res.data);
+        setAllHoldings(res.data);
+      });
   }, []);
 
   const labels = allHoldings.map((subArray) => subArray["name"]); //this will go through allHoldings and will create labels-->[it will create an array with all the holding names]

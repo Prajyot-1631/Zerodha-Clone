@@ -6,10 +6,12 @@ function Orders() {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/allOrders").then((res) => {
-      console.log(res.data);
-      setOrders(res.data);
-    });
+    axios
+      .get("https://zerodha-clone-eyro.onrender.com/allOrders")
+      .then((res) => {
+        console.log(res.data);
+        setOrders(res.data);
+      });
   }, []);
 
   return (

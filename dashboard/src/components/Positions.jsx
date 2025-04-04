@@ -9,10 +9,12 @@ function Positions() {
 
   // Getting Positions data from allPositions then sending that result.data to the updater function-> "SetAllPositions"
   useEffect(() => {
-    axios.get("http://localhost:8080/allPositions").then((res) => {
-      console.log(res.data);
-      setAllPositions(res.data);
-    });
+    axios
+      .get("https://zerodha-clone-eyro.onrender.com/allPositions")
+      .then((res) => {
+        console.log(res.data);
+        setAllPositions(res.data);
+      });
   }, []);
 
   return (
