@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import BuyActionWindow from "./BuyActionWindow";  
 
 function Orders() {
   const [orders, setOrders] = useState([]);
@@ -17,8 +16,6 @@ function Orders() {
 
   return (
     <div className="orders">
-       {/* Render BuyActionWindow and pass setOrders */}
-      <BuyActionWindow uid="XYZ" setOrders={setOrders} />
       <div className="no-orders">
         {orders.length === 0 ? (
           <div>
