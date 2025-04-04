@@ -18,7 +18,7 @@ const Signup = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:8080/signup",
+        "https://zerodha-clone-eyro.onrender.com/signup",
         formData
       );
       console.log(response.data);

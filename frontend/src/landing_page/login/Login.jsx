@@ -18,7 +18,7 @@ const Login = () => {
     setError("");
     try {
       const response = await axios.post(
-        "http://localhost:8080/login",
+        "https://zerodha-clone-eyro.onrender.com/login",
         formData
       );
 
@@ -27,7 +27,7 @@ const Login = () => {
         localStorage.setItem("token", response.data.token);
 
         //   Redirect to Dashboard
-        window.location.href = `http://localhost:5173/?token=${response.data.token}`;
+        window.location.href = `https://zerodha-clone-dashboard-2.onrender.com/?token=${response.data.token}`;
       } else {
         setError("Invalid credentials: Please try again.");
       }
