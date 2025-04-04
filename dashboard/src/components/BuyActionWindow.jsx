@@ -12,15 +12,25 @@ const BuyActionWindow = ({ uid }) => {
   const [stockQuantity, setStockQuantity] = useState(1);
   const [stockPrice, setStockPrice] = useState(0.0);
 
-  const handleBuyClick = () => {
+  const handleBuyClick = async () => {
+    try {
     axios.post("https://zerodha-clone-eyro.onrender.com/newOrder", {
       name: uid,
       qty: stockQuantity,
       price: stockPrice,
       mode: "BUY",
     });
-
+      console.log("Order placed:", response.data);
+      // Fetch updated orders immediately
+      const ordersResponse = await axios.get(
+        "https://zerodha-clone-eyro.onrender.com/allOrders"
+      );
+      setOrders(ordersResponse.data);
+      
     GeneralContext.closeBuyWindow();
+    } catch (error) {
+      console.error("Error placing order:", error);
+    }
   };
 
   // why GeneralContext?
